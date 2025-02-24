@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Customer Log in</title>
+    <style media="screen">
+    .toprow{
+      height:250px;
+      background-image: url('static/title line_customer.jpg');
+      background-repeat:no-repeat;
+      background-size: cover;
+      position: relative;
+      z-index: -1;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .bottomrow {
+      height: 150px;
+    }
+    .bottomimage {
+      height: 150px;
+      width: auto;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 50px;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 150px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .login input {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+    }
+
+    </style>
+    <script>
+      function Myfunction(){alert ("Log in failed");}
+    </script>
+  </head>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}">
+      <img src="static/title line_customer.jpg" class = "topimage">
+      </a>
+      <h1 class="topwords">Welcome dear customer!</h1>
+    </div>
+    <div class="bar">
+      <center>
+      <img src="static/customer.png" class="welcomesign">
+      <h1 class="barwords">Log In</h1>
+    </center>
+    </div>
+
+
+    <div class="login" style="text-align: center">
+      <form action="/customer_login_check" method="POST">
+      <h3>
+      <label for="email">Email</label>
+      <input type="text" name="email" value="">
+      </h3>
+      <h3>
+      <label for="psw">Password</label>
+      <input type="password" name="psw" value="">
+      </h3>
+      <button type="submit" name="button" class="button button1">Log in</button>
+      </form>
+    </div>
+
+    {% if error %}
+      <h4 style="color: firebrick; text-align: center">{{error}}</h4>
+    {% endif %}
+
+    <div class="bottomrow">
+      <a href="{{ url_for('general.home_page') }}">
+        <img src="static/home.png" alt="Home" class="bottomimage">
+      </a>
+    </div>
+  </body>
+</html>

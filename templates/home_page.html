@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+  <html lang="en" dir="ltr">
+    <head>
+      <meta charset="utf-8">
+      <title>Login</title>
+      <style media="screen">
+        html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/frontpage.jpg');
+        }
+        .toprow {
+          height: 150px;
+        }
+        .topimage {
+          height: 200px;
+          width: auto;
+          float: left;
+          border-radius: 50px;
+        }
+        .topwords {
+        position: absolute;
+        left: 100px;
+        top: 20px;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        color: purple;
+      }
+      .welcome-message {
+        text-align: center;
+        color: #fff;
+        font-size: 24px;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        padding: 80px;
+        border-radius: 2px;
+      }
+        .icon-container {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 20px;
+        }
+        .icon-row {
+          text-align: center;
+        }
+        .icon {
+          width: 150px;
+          height: auto;
+          margin: 10px;
+        }
+        .icon-label {
+        color: purple;
+        font-size: 20px;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        }
+        .instructions {
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .links {
+        background-color: transparent;
+        font-family: 'Georgia', serif;
+        font-size: 25px;
+        }
+      </style>
+  </head>
+  <body>
+    <div class="toprow">
+      <h1 class="topwords">Hi there!</h1>
+    </div>
+    <div class="welcome-message">
+      <h2>Welcome to our data base final project!</h2>
+      <p>NYUSH 2023 Fall</p>
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <div class="links">
+      <center>
+        <a href="{{ url_for('general.home_page') }}">Home</a> &nbsp | &nbsp
+        <a href="{{ url_for('general.login') }}">Log In</a> &nbsp | &nbsp
+        <a href="{{ url_for('general.register') }}">Register</a> &nbsp | &nbsp
+        <a href="{{ url_for('general.flight') }}">View Flight Status</a> &nbsp
+      </center>
+    </div>
+
+    <div class="instructions">
+      <p>Please choose your role from the options above to proceed with the login.</p>
+  </div>
+</body>

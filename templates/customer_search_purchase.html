@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>View My Flights</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style media="screen">
+    .centered-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    }
+  .centered-table {
+    margin: auto;
+    }
+    html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/background.jpg');
+        }
+    .toprow{
+      height:200px;
+      background-image: url('static/title line_customer.jpg');
+      background-repeat:no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 150px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .login input {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+    }
+    .links {
+      position: absolute;
+      top: 30%;
+      left: 0;
+      width: 200px;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+      padding: 10px 20px;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .links a:last-child {
+        border-bottom: none;
+    }
+    .links a:hover {
+    background-color: #f2f2f2;
+    color: purple;
+    font-size: 18px;
+    }
+    h2 u,
+    h3 u {
+      font-family: 'Georgia';
+      font-size: 30px;
+      font-style: italic;
+      text-decoration: none;
+    }
+    label {
+      font-size: 20px;
+    }
+   */
+  </style>
+  <script>
+    $(document).ready(function() {
+      function updateDivVisibility() {
+        var selectedOption = $('#select_way').val();
+        $('#select_date, #select_location, #select_both').hide();
+
+        if (selectedOption === 'dates') {
+          $('#select_date').show();
+        } else if (selectedOption === 'location') {
+          $('#select_location').show();
+        } else if (selectedOption === 'both') {
+          $('#select_both').show();
+        }
+      }
+
+      $('#select_way').change(updateDivVisibility);
+
+      updateDivVisibility();
+    });
+  </script>
+</head>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}"></a>
+      <h1 class="topwords">Heyyy! Welcome to search and purchase tickets as customers</h1>
+    </div>
+    <div class="links">
+      <center>
+        <a href="{{ url_for('customer.customer_home') }}">Home</a> 
+        <a href="{{ url_for('customer.customer_view') }}">My Flights</a>
+        <a href="{{ url_for('customer.customer_search_purchase') }}">Search and Purchase</a> 
+        <a href="{{ url_for('customer.customer_spending') }}">My Spending</a>
+        <a href="/logout">Log Out</a>
+      </center>
+    </div>
+
+    <div style="text-align: center">
+        <script>
+        function showDiv(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'dates' ? 'block' : 'none';
+        }
+        function showDiv2(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'location' ? 'block' : 'none';
+        }
+        function showDiv3(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'both' ? 'block' : 'none';
+        }
+      </script>
+
+      <form action="/customer_search" method="POST">
+      <label for="way"><h2><u>Choose a way to search your flight</u></h2> <br></label>
+      <select name = "way"  id="select_way" onchange="showDiv('select_date', this); showDiv2('select_location', this); showDiv3('select_both', this)" style="width: auto; height: 60px">
+          <option value="nothing">----please select----</option>
+          <option value="dates">Date range</option>
+          <option value="location">Departure/Arrival Location</option>
+          <option value="both">Dates and Location</option>
+      </select>
+
+      <div id="select_date">
+          <h3><u>Date range</u></h3> <br>
+          <label for="start_date">Starting Date</label> <br>
+          <input type="date" name="start_date" value="" > <br><br>
+          <label for="end_date">Ending Date</label> <br>
+          <input type="date" name="end_date" value="" > <br><br>
+      </div>
+
+      <div id="select_location">
+          <h3><u>Departure and arrival location</u></h3> <br>
+          <label for="depart_city_or_airport">Departure Airport / City Name</label> <br>
+          <input type="text" name="depart_city_or_airport" value="" > <br><br>
+          <label for="arrive_city_or_airport">Arrival Airport / City Name</label> <br>
+          <input type="text" name="arrive_city_or_airport" value="" > <br><br>
+      </div> 
+
+      <div id="select_both">
+          <h3><u>Dates and locations</u></h3> <br>
+          <label for="start_date1">Starting Date</label> <br>
+          <input type="date" name="start_date1" value="" > <br><br>
+          <label for="end_date1">Ending Date</label> <br>
+          <input type="date" name="end_date1" value="" > <br><br>
+          <label for="depart_city_or_airport1">Departure Airport / City Name</label> <br>
+          <input type="text" name="depart_city_or_airport1" value="" > <br><br>
+          <label for="arrive_city_or_airport1">Arrival Airport / City Name</label> <br>
+          <input type="text" name="arrive_city_or_airport1" value="" > <br><br>
+      
+        </div> <br><br>
+
+      <button type="Search" name="button" class="button button1">Search</button>
+      </form>
+    </div>
+
+    {% if error %}
+            <h4 style="color: firebrick; text-align: center">{{error}}</h4>
+    {% endif %}
+
+    {% if flights %}
+        <div class="showflights centered-div">
+            <h2 style="text-align: center">Search results</h2>
+            <table class="centered-table">
+              <tr>
+                <th>Flight Number</th>
+                <th>Airline Name</th>
+                <th>Airplane ID</th>
+                <th>Depature Airport</th>
+                <th>Arrival Airport</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Price</th>
+              </tr>
+
+              {% for flight in flights %}
+              <tr>
+                <td>{{flight.flight_num}}</td>
+                <td>{{flight.airline_name}}</td>
+                <td>{{flight.airplane_id}}</td>
+                <td>{{flight.departure_airport}}</td>
+                <td>{{flight.arrival_airport}}</td>
+                <td>{{flight.departure_time}}</td>
+                <td>{{flight.arrival_time}}</td>
+                <td>{{flight.price}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+
+    {% if no_flight %}
+      <h2 style="text-align: center">No Upcoming Flights of based on your search</h2>
+    {% endif %}
+
+  <div style="text-align: center">
+    <h1 style="color: purple; font-family: 'Georgia', serif; font-style: italic; font-size: 40px;">Purchase Tickets</h1>
+      <form action="/customer_purchase" method="POST">
+          <label for="airline_name">Airline Name</label> 
+          
+          <br><br><br>
+          
+          <select name="airline_name" style="width: auto; height: 60px">
+              <option value="" >Please search the airline</option>
+              {% if airlines %}
+                  {% for airline in airlines %}
+                    <option value="{{airline['airline_name']}}">{{airline['airline_name']}}</option>
+                  {% endfor %}
+              {% else %}
+              <option value="error">You cannot putchase tickets for customers</option>
+              {% endif %}
+
+          </select>
+
+          <br><br><br>
+
+          <label for="flight_number">Flight Number</label> 
+          
+          <br><br><br>
+          <select name="flight_number" style="width: auto; height: 60px">
+              <option value="" >Please search the flight number</option>
+              {% if flightsnum %}
+                  {% for flight in flightsnum %}
+                    <option value="{{flight['flight_num']}}">{{flight['flight_num']}}</option>
+                  {% endfor %}
+              {% else %}
+              <option value="error2">There are no currently upcoming flights</option>
+              {% endif %}
+
+          </select> <br><br>
+
+          <button type="Purchase" name="button" class="button button1">Purchase</button>
+      </form>
+
+      {% if error0 %}
+            <h4 style="color: firebrick; text-align: center">{{error0}}</h4>
+      {% endif %}
+
+      {% if error1 %}
+            <h4 style="color: firebrick; text-align: center">{{error1}}</h4>
+      {% endif %}
+
+
+      {% if message %}
+            <h4 style="color: #168107; text-align: center">{{message}}</h4>
+      {% endif %}
+  </div>
+
+
+</body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+<script>
+  $(document).ready(function() {
+    function updateDivVisibility() {
+      var selectedOption = $('#select_way').val();
+      $('#select_date, #select_location, #select_both').hide();
+
+      if (selectedOption === 'dates') {
+        $('#select_date').show();
+      } else if (selectedOption === 'location') {
+        $('#select_location').show();
+      } else if (selectedOption === 'both') {
+        $('#select_both').show();
+      }
+    }
+
+    $('#select_way').change(updateDivVisibility);
+
+    updateDivVisibility();
+  });
+</script>

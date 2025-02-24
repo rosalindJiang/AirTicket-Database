@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>View My Flights</title>
+    <style media="screen">
+    html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/background.jpg');
+        }
+    .toprow{
+      height:200px;
+      background-image: url('static/title line_agent.jpg');
+      background-repeat:no-repeat;
+      background-size: cover; /* Adjust the size to cover the entire element */
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 150px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .login input {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+    }
+    .links {
+      position: absolute;
+      top: 30%;
+      left: 0;
+      width: 200px;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+      padding: 10px 20px;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .links a:last-child {
+        border-bottom: none;
+    }
+    .links a:hover {
+    background-color: #f2f2f2;
+    color: purple;
+    font-size: 18px;
+    }
+    h2 u,
+    h3 u {
+      font-family: 'Georgia';
+      font-size: 30px;
+      font-style: italic;
+      text-decoration: none;
+    }
+    label {
+      font-size: 20px;
+    }
+    select {
+      width: 1000px;
+      height: 700px;
+    }
+    
+  </style>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}"></a>
+      <h1 class="topwords">Heyyy! Welcome to view commission section for agents</h1>
+    </div>
+
+    <div class="links">
+        <center>
+          <a href="{{ url_for('booking_agent.booking_agent_home') }}">Home</a>
+          <a href="{{ url_for('booking_agent.booking_agent_view') }}">My Flights</a>
+          <a href="{{ url_for('booking_agent.booking_agent_search_purchase') }}">Search and Purchase</a>
+          <a href="{{ url_for('booking_agent.booking_agent_commission') }}"> My Commission</a>
+          <a href="{{ url_for('booking_agent.booking_agent_top_customer') }}">Top5 Customers</a>
+          <a href="/logout">Log Out</a>
+        </center>
+    </div>
+
+  <div style="text-align: center">
+      <h2><u>My commission in the past 30 days</u></h2>
+      <h3>Total:</h3> {{total_comm}} $ <br>
+      <h3>Average:</h3> {{avg_comm}} $<br>
+      <h3>Tickets Sold: </h3> {{total_tickets}} <br>
+  </div>
+
+  <div style="text-align: center">
+      <form action="/booking_agent_commission_date" method="POST">
+      <h2><u>Please specify a range of days to view commission and tickets</u></h2> <br>
+      <label for="start_date">Starting Data</label> <br>
+      <input type="date" name="start_date" value="" required> <br><br>
+      <label for="end_date">Ending Data</label> <br>
+      <input type="date" name="end_date" value="" required> <br><br>
+
+      <button type="Search" name="button" class="button button1">Search</button>
+      </form>
+
+      {% if comm %}
+      <h2><u>My commission between {{start}} and {{end}}</u></h2> <br>
+      <h3>Total:</h3> {{total_comm1}} $ <br>
+      <h3>Average:</h3> {{avg_comm1}} $<br>
+      <h3>Tickets Sold: </h3> {{total_tickets1}} <br>
+      {% endif %}
+  </div>
+

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> Customer Home</title>
+    <style media="screen">
+    .centered-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    }
+
+    .centered-table {
+    margin: auto;
+    }
+    html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/homepage.jpg');
+        }
+    .toprow{
+      height:200px;
+      background-image: url('static/title line_agent.jpg');
+      background-repeat:no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 150px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .login input {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+    }
+    .links {
+    background-color: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 25px;
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+    }
+    .links a:hover {
+      color: purple;
+    }
+
+    </style>
+  </head>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}">
+      </a>
+      <h1 class="topwords">Heyyy Customer: {{email}}, how are you doing today?</h1>
+    </div>
+    <div class="bar">
+      <center>
+      <img src="static/customer.png" class="welcomesign">
+    </center>
+    </div>
+
+    <br><br><br>
+
+    <div class="links">
+      <center>
+        <a href="{{ url_for('customer.customer_home') }}">Home</a> &nbsp | &nbsp
+        <a href="{{ url_for('customer.customer_view') }}">My Flights</a> &nbsp | &nbsp
+        <a href="{{ url_for('customer.customer_search_purchase') }}">Search and Purchase</a> &nbsp | &nbsp
+        <a href="{{ url_for('customer.customer_spending') }}">My Spending</a> &nbsp | &nbsp
+        <a href="/logout">Log Out</a>
+      </center>
+    </div>
+
+    <h1 style="text-align: center">Upcoming flights in the next 30 days</h1>
+    {% if flights %}
+    <table class="centered-table">
+      <tr>
+        <th>Flight Number</th>
+        <th>Airline Name</th>
+        <th>Airplane ID</th>
+        <th>Depature Airport</th>
+        <th>Arrival Airport</th>
+        <th>Departure Time</th>
+        <th>Arrival Time</th>
+        <th>Price</th>
+        <th>Ticket Number</th>
+      </tr>
+
+      {% for flight in flights %}
+      <tr>
+        <td>{{flight.flight_num}}</td>
+        <td>{{flight.airline_name}}</td>
+        <td>{{flight.airplane_id}}</td>
+        <td>{{flight.departure_airport}}</td>
+        <td>{{flight.arrival_airport}}</td>
+        <td>{{flight.departure_time}}</td>
+        <td>{{flight.arrival_time}}</td>
+        <td>{{flight.price}}</td>
+        <td>{{flight.ticket_id}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    {% else %}
+      <h2 style="text-align: center">No Upcoming Flights in the next 30 days</h2>
+    {% endif %}
+
+     </body>
+</html>

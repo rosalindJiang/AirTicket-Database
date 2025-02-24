@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>View Flight Info</title>
+    <style media="screen">
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center top;
+        background-image: url('static/flight.png');
+      }
+      .bottomrow {
+        height: 150px;
+      }
+      .bottomimage {
+      height: 150px;
+      width: auto;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 50px;
+      }
+      .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif; /* Change to Georgia or another desired font */
+      font-style: italic; /* Add this line to italicize the text */
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+      }
+      .button1{
+        background-color: rgb(255, 255, 255);
+        color: black;
+        border: 3px solid #4CAF50;
+      }
+      h2 u{
+        font-family: 'Georgia';
+        font-size: 30px;
+        font-style: italic;
+        text-decoration: none;
+      }
+      .toprow{
+      height:100px;
+      position: relative;
+      }
+      .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+      }
+    </style>
+
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}"></a>
+      <h1 class="topwords">Heyyy! Welcome to public flight search</h1>
+    </div>
+
+
+
+    <div class="search1" style="text-align: center">
+      <form action="/public_search_flight" method="POST">
+      <h2><u>Search for upcoming flights</u></h2>
+      <label for="depart_city_or_airport">Departure Airport Name/ City Name</label> <br>
+      <input type="text" name="depart_city_or_airport" value="" > <br><br>
+      <label for="arrive_city_or_airport">Arrival Airport Name/ City Name</label> <br>
+      <input type="text" name="arrive_city_or_airport" value="" > <br><br>
+      <label for="departure_date">Departure Date</label> <br>
+      <input type="date" name="departure_date" value=""> <br><br>
+      <label for="arrival_date">Arrival Date</label> <br>
+      <input type="date" name="arrival_date" value=""> <br><br>
+      <button type="submit" name="button" class="button button1">Search</button>
+      </form>
+
+
+    {% if flights %}
+        <div class="showflights">
+            <h2 style="text-align: center">Search results</h2>
+            <table>
+              <!--<caption>My Upcoming Flights</caption>-->
+              <tr>
+                <th>Flight Number</th>
+                <th>Airline Name</th>
+                <th>Airplane ID</th>
+                <th>Depature Airport</th>
+                <th>Arrival Airport</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Price</th>
+              </tr>
+
+              {% for flight in flights %}
+              <tr>
+                <td>{{flight.flight_num}}</td>
+                <td>{{flight.airline_name}}</td>
+                <td>{{flight.airplane_id}}</td>
+                <td>{{flight.departure_airport}}</td>
+                <td>{{flight.arrival_airport}}</td>
+                <td>{{flight.departure_time}}</td>
+                <td>{{flight.arrival_time}}</td>
+                <td>{{flight.price}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+
+    {% if no_flight %}
+      <h4 style="text-align: center; color: firebrick">No Upcoming Flights of based on your search</h4>
+    {% endif %}
+    </div>
+
+    <div class="search2" style="text-align: center">
+      <form action="/public_search_flight_status" method="POST">
+      <h2><u>Search for flights status</u></h2>
+      <label for="f_n">Flight Number</label> <br>
+      <input type="text" name="f_n" value=""> <br><br>
+      <label for="departure_date">Departure Date</label><br>
+      <input type="date" name="departure_date" value=""><br><br>
+      <label for="arrival_date">Arrival Date</label><br>
+      <input type="date" name="arrival_date" value=""><br><br>
+      <button type="submit" name="button" class="button button1">Search</button>
+
+      {% if error2 %}
+      <h2 class="text-danger"><strong>No Result:</strong> {{error2}}</h2>
+      {% endif %}
+
+      {% if flights_status %}
+      <table>
+        <tr>
+            <th >Airline Name</th>
+            <th>Flight Num</th>
+            <th>Airplane ID</th>
+            <th>Status</th>
+        </tr>
+
+        {% for flight in flights_status %}
+        <tr>
+            <td>{{flight.airline_name}}</td>
+            <td>{{flight.flight_num}}</td>
+            <td>{{flight.airplane_id}}</td>
+            <td>{{flight.status}}</td>-
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+      </form>
+    </div>
+    
+      <div class="bottomrow">
+        <a href="{{ url_for('general.home_page') }}">
+          <img src="static/home.png" alt="Home" class="bottomimage">
+        </a>
+      </div>
+    </body>
+  </html>

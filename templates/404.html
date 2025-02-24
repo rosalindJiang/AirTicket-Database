@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>404</title>
+    <style media="screen">
+
+    .centered {
+    text-align: center;
+    }
+    img {
+    width: 500px; /* Set the desired width */
+    height: auto; /* Maintain aspect ratio */
+    }
+    .links {
+    background-color: transparent; /* Set to transparent or another color */
+    font-family: 'Georgia', serif;
+    font-size: 25px;
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+    }
+    .links a:hover {
+      color: purple;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="centered">
+        <h1 class="text-danger">404</h1>
+        <h2>You are lost. Please go back home or try other options</h2>
+        <img src="static/404.png" alt="404 Image"><br>
+    </div>
+    <div class="links">
+    <div class="centered">
+        <a href="{{ url_for('general.home_page') }}">HOME</a> | &nbsp | &nbsp
+        <a href="{{ url_for('general.login') }}">LOGIN</a> | &nbsp | &nbsp
+        <a href="{{ url_for('general.register') }}">REGISTER</a> &nbsp | &nbsp
+    </div>
+    </div>
+
+
+</body>
+
+</html>

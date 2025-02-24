@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>View My Flights</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style media="screen">
+    html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/background.jpg');
+        }
+    .toprow{
+      height:200px;
+      background-image: url('static/title line_staff.jpg');
+      background-repeat:no-repeat;
+      background-size: cover; /* Adjust the size to cover the entire element */
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .welcomesign {
+      height: 150px; /* Adjust the height to make it bigger */
+      width: 150px;  /* Set the width to make it square */
+      border-radius: 15px; /* Adjust the border-radius to round the corners, if needed */
+      margin: 0 auto; /* Center the element horizontally */
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px; /* Adjust the font size to make it bigger */
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif; /* Change to Georgia or another desired font */
+      font-style: italic; /* Add this line to italicize the text */
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .login input {
+      width: 200px; /* Set the desired width */
+      padding: 10px; /* Adjust padding for better aesthetics */
+      margin: 5px 0; /* Add some margin for spacing */
+    }
+    .links {
+      position: absolute;
+      top: 30%;
+      left: 0;
+      width: 200px;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+      padding: 10px 20px;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .links a:last-child {
+        border-bottom: none;
+    }
+    .links a:hover {
+    background-color: #f2f2f2;
+    color: purple;
+    font-size: 18px;
+    }
+    h2 u,
+    h3 u {
+      font-family: 'Georgia';
+      font-size: 30px;
+      font-style: italic;
+      text-decoration: none;
+    }
+    label {
+      font-size: 20px;
+    }
+    select {
+      width: 1000px;
+      height: 700px;
+    }
+  </style>
+
+  <script>
+    $(document).ready(function() {
+      // Function to show or hide divs based on the selected option
+      function updateDivVisibility() {
+        var selectedOption = $('#select_way').val();
+        $('#select_date, #select_location, #select_both').hide(); // Hide all divs initially
+
+        if (selectedOption === 'dates') {
+          $('#select_date').show();
+        } else if (selectedOption === 'location') {
+          $('#select_location').show();
+        } else if (selectedOption === 'both') {
+          $('#select_both').show();
+        }
+      }
+
+      // Attach the function to the change event of the select element
+      $('#select_way').change(updateDivVisibility);
+
+      // Call the function on page load to set the initial state
+      updateDivVisibility();
+    });
+  </script>
+  <head>
+    <meta charset="utf-8">
+    <title>View ticket reports</title>
+  </head>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}"></a>
+      <h1 class="topwords">Heyyy! View ticket reports for staff</h1>
+    </div>
+
+    <div class="links">
+      <center>
+        <a href="{{ url_for('airline_staff.airline_staff_home') }}">Home</a>
+        <a href="{{ url_for('airline_staff.airline_staff_view') }}">My Flights</a>
+        <a href="{{ url_for('airline_staff.airline_staff_create_flight_change_status') }}">Add New Flights and Change Status</a>
+        <a href="{{ url_for('airline_staff.airline_staff_add_airplane_airport') }}">Add Airplane and Airport</a>
+        <a href="{{ url_for('airline_staff.airline_staff_view_booking_agent') }}">Booking Agents</a>
+        <a href="{{ url_for('airline_staff.airline_staff_view_customer') }}">Frequent Consumers</a>
+        <a href="{{ url_for('airline_staff.airline_staff_report') }}">Tickets Reports</a>
+        <a href="{{ url_for('airline_staff.airline_staff_revenue') }}">Revenue</a>
+        <a href="{{ url_for('airline_staff.airline_staff_destination') }}">Top Destination</a>
+        <a href="{{ url_for('airline_staff.airline_staff_permission') }}">New Permissions</a>
+        <a href="{{ url_for('airline_staff.airline_staff_add_booking_agent') }}">Add Booking Agent</a>
+        <a href="/logout">Log Out</a>
+      </center>
+    </div>
+
+    <div style="text-align: center">
+      <script>
+        function showDiv(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'dates' ? 'block' : 'none';
+        }
+      </script>
+
+      <form action="/airline_staff_show_report" method="POST">
+      <label for="time"><h2><u>Select a time range to see ticket reports</u></h2> <br></label>
+      <select name = "time"  id="select_way" onchange="showDiv('select_date', this)" style="width: auto; height: 60px">
+          <option value="0">---Please select---</option>
+          <option value="dates">Specify a range of Dates</option>
+          <option value="year">Last Year</option>
+          <option value="month">Last Month</option>
+      </select> <br><br>
+
+      <div id="select_date">
+          <h2><u>Please specify a range of days to view commission and tickets</u></h2> <br>
+          <label for="start_date">Starting Data</label> <br>
+          <input type="date" name="start_date" value="" > <br><br>
+          <label for="end_date">Ending Data</label> <br>
+          <input type="date" name="end_date" value="" > <br><br>
+      </div> <br><br>
+
+      <button type="Search" name="button" class="button button1">Search</button>
+      </form>
+
+
+      {% if tot_month %}
+          {% if error %}
+            <h4 style="color: firebrick; text-align: center">{{error}}</h4>
+          {% else %}
+            <h2>The total tickets sold in the last month: {{tot_month}}</h2>
+          {% endif %}
+      {% endif %}
+
+      {% if tot_year %}
+         {% if error1 %}
+            <h4 style="color: firebrick; text-align: center">{{error1}}</h4>
+         {% else %}
+          <h2>Total tickets sold in the last year: {{tot_year}}</h2>
+            <div id="container" style="text-align: center; width: 800px; height: 500px;" align="center">
+            <script>
+                <!-- chart code will be here -->
+                const object = {{t_each_month|safe}}
+                const array = [];
+                const array2 = [];
+
+                for (const i in object){
+                    const ele = [`${object[i]['Month']}`, `${object[i]['Tickets']}`];
+                    // document.write(ele);
+                    array.push(ele);
+                    array2.push('Ticket Number:');
+                    // document.write(`${object[i]['Month']}`);
+                    // document.write(`${object[i]['Tickets']}`);
+                }
+
+
+
+                anychart.onDocumentReady(function() {
+                    var data = {
+                      header: array2,
+                      rows: array}
+
+                // create the chart
+                var chart = anychart.column();
+
+                // add the data
+                chart.data(data);
+
+                // set the chart title
+                chart.title("Tickets Sold in Each Month");
+
+                // draw
+                chart.container('container');
+                chart.draw();
+                });
+
+            </script>
+            </div>
+          {% endif %}
+      {% endif %}
+
+      {% if tot_date %}
+        {% if error2 %}
+            <h4 style="color: firebrick; text-align: center">{{error2}}</h4>
+        {% else %}
+          <h2>Total tickets sold between {{start_date}} and {{end_date}}: {{tot_date}} tickets</h2>
+          <div id="container" style="text-align: center; width: 800px; height: 500px;" align="center">
+            <script>
+                <!-- chart code will be here -->
+                const object1 = {{t_date_each_month|safe}};
+                const array3 = [];
+                const array4 = [];
+
+                for (const i in object1){
+                    const ele = [`${object1[i]['Month']}`, `${object1[i]['Tickets']}`];
+                    array3.push(ele);
+                    array4.push('Ticket Number:');
+                }
+
+                anychart.onDocumentReady(function() {
+                    var data1 = {
+                      header: array4,
+                      rows: array3}
+
+                // create the chart
+                var chart = anychart.column();
+
+                // add the data
+                chart.data(data1);
+
+                // set the chart title
+                chart.title("Tickets Sold in Each Month");
+
+                // draw
+                chart.container('container');
+                chart.draw();
+                });
+            </script>
+          </div>
+        {% endif %}
+      {% endif %}
+
+    </div>
+

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Customer Register</title>
+    <style media="screen">
+    .toprow{
+      height:150px;
+      background-repeat:no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: 80%;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .bottomrow {
+      height: 150px;
+    }
+    .bottomimage {
+      height: 150px;
+      width: auto;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 50px;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 140px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .register input {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+    }
+  
+
+    </style>
+  </head>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}">
+      <img src="static/title line_agent.jpg" class = "topimage">
+      </a>
+      <h1 class="topwords">Welcome new staff, welcome to the crew!</h1>
+    </div>
+    <div class="bar">
+      <center>
+        <img src="static/agent.png" class="welcomesign">
+      <h1 class="barwords">Register as a Airline Staff!</h1>
+    </center>
+    </div>
+
+    <div class="info">
+    <form action="/airline_staff_register_check" method="POST">
+      <center>
+        <h3>
+      <label for="username">Username</label>
+      <input type="text" name="username" value="" required>
+    </h3>
+    <h3>
+      <label for="password">Password</label>
+      <input type="text" name="password" value="" required>
+    </h3>
+    <h3>
+      <label for="f_name">First Name</label>
+      <input type="text" name="f_name" value="" required>
+    </h3>
+    <h3>
+      <label for="l_name">Last Name</label>
+      <input type="text" name="l_name" value="" required>
+    </h3>
+    <h3>
+      <label for="DOB">Date of Birth</label>
+      <input type="date" name="DOB" value="" required>
+    </h3>
+    <h3>
+      <label for="a_name">Airline Name</label>
+      <input type="text" name="a_name" value="" required>
+    </h3>
+    <a href="sign_in.html">
+      <button type="submit" name="button" class="button button1">Submit</button>
+    </a>
+    </center>
+    <form>
+
+    {% if error %}
+      <h4 style="color: firebrick; text-align: center">{{error}}</h4>
+    {% endif %}
+
+    {% if error1 %}
+      <h4 style="color: firebrick; text-align: center">{{error1}}</h4>
+    {% endif %}
+  </div>
+    
+    <div class="bottomrow">
+      <a href="{{ url_for('general.home_page') }}">
+        <img src="static/home.png" alt="Home" class="bottomimage">
+      </a>
+    </div>
+  </body>
+</html>

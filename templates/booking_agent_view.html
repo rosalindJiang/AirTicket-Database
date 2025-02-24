@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>View My Flights</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style media="screen">
+    .centered-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    }
+    .centered-table {
+    margin: auto;
+    }
+    html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/background.jpg');
+        }
+    .toprow{
+      height:200px;
+      background-image: url('static/title line_agent.jpg');
+      background-repeat:no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 150px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .login input{
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+      position: absolute;
+      top: 30%;
+      left: 0;
+      width: 200px;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .links {
+      position: absolute;
+      top: 30%;
+      left: 0;
+      width: 200px;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+      padding: 10px 20px;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .links a:last-child {
+        border-bottom: none;
+    }
+    .links a:hover {
+    background-color: #f2f2f2;
+    color: purple;
+    font-size: 18px;
+    }
+    h2 u,
+    h3 u {
+      font-family: 'Georgia';
+      font-size: 30px;
+      font-style: italic;
+      text-decoration: none;
+    }
+    label {
+      font-size: 20px;
+    }
+    select {
+      width: 1000px;
+      height: 700px;
+    }
+    
+  </style>
+ <script>
+  $(document).ready(function() {
+    function updateDivVisibility() {
+      var selectedOption = $('#select_way').val();
+      $('#select_date, #select_location, #select_both').hide();
+
+      if (selectedOption === 'dates') {
+        $('#select_date').show();
+      } else if (selectedOption === 'location') {
+        $('#select_location').show();
+      } else if (selectedOption === 'both') {
+        $('#select_both').show();
+      }
+    }
+
+    $('#select_way').change(updateDivVisibility);
+
+    updateDivVisibility();
+  });
+</script>
+</head>
+
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}"></a>
+      <h1 class="topwords">Heyyy! Welcome to view my flight section for agents</h1>
+    </div>
+
+    <div class="links">
+        <center>
+            <a href="{{ url_for('booking_agent.booking_agent_home') }}">Home</a>
+            <a href="{{ url_for('booking_agent.booking_agent_view') }}">My Flights</a>
+            <a href="{{ url_for('booking_agent.booking_agent_search_purchase') }}">Search and Purchase</a>
+            <a href="{{ url_for('booking_agent.booking_agent_commission') }}"> My Commission</a>
+            <a href="{{ url_for('booking_agent.booking_agent_top_customer') }}">Top5 Customers</a>
+            <a href="/logout">Log Out</a>
+        </center>
+    </div>
+
+    <div style="text-align: center">
+        <script>
+        function showDiv(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'dates' ? 'block' : 'none';
+        }
+        function showDiv2(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'location' ? 'block' : 'none';
+        }
+        function showDiv3(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'both' ? 'block' : 'none';
+        }
+      </script>
+
+      <form action="/booking_agent_view_search" method="POST">
+      <label for="way"><h2><u>Search flights based on</u></h2> <br></label>
+      <select name = "way"  id="select_way" onchange="showDiv('select_date', this); showDiv2('select_location', this); showDiv3('select_both', this)" style="width: auto; height: 60px">
+          <option value="nothing">----please select----</option>
+          <option value="dates">Specify a range of dates</option>
+          <option value="location">Departure/Arrival Location</option>
+          <option value="both">Dates and Location</option>
+      </select> <br>
+
+      <div id="select_date">
+          <h3><u>Please specify a range of days to search flights</u></h3> <br>
+          <label for="start_date">Starting Date</label> <br>
+          <input type="date" name="start_date" value="" > <br><br>
+          <label for="end_date">Ending Date</label> <br>
+          <input type="date" name="end_date" value="" > <br><br>
+      </div> <br><br>
+
+      <div id="select_location">
+          <h3><u>Please specify both the information below to search flights</u></h3> <br>
+          <label for="depart_city_or_airport">Departure Airport Name/ City Name</label> <br>
+          <input type="text" name="depart_city_or_airport" value="" > <br><br>
+          <label for="arrive_city_or_airport">Arrival Airport Name/ City Name</label> <br>
+          <input type="text" name="arrive_city_or_airport" value="" > <br><br>
+      </div> <br><br>
+
+      <div id="select_both">
+          <h3><u>Please specify all the information below to search flights</u></h3> <br>
+          <label for="start_date1">Starting Date</label> <br>
+          <input type="date" name="start_date1" value="" > <br><br>
+          <label for="end_date1">Ending Date</label> <br>
+          <input type="date" name="end_date1" value="" > <br><br>
+          <label for="depart_city_or_airport1">Departure Airport Name/ City Name</label> <br>
+          <input type="text" name="depart_city_or_airport1" value="" > <br><br>
+          <label for="arrive_city_or_airport1">Arrival Airport Name/ City Name</label> <br>
+          <input type="text" name="arrive_city_or_airport1" value="" > <br><br>
+      </div> <br>
+      <button type="Search" name="button" class="button button1">Search</button>
+      </form>
+    </div>
+
+    {% if error %}
+            <h4 style="color: firebrick; text-align: center">{{error}}</h4>
+    {% endif %}
+
+    {% if flights %}
+    <div class="showflights">
+        <h2 style="text-align: center">Search results</h2>
+        <table class="centered-table">
+          <tr>
+            <th>Flight Number</th>
+            <th>Airline Name</th>
+            <th>Airplane ID</th>
+            <th>Depature Airport</th>
+            <th>Arrival Airport</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Price</th>
+            <th>Customer Email</th>
+            <th>Ticket Number</th>
+          </tr>
+
+          {% for flight in flights %}
+          <tr>
+            <td>{{flight.flight_num}}</td>
+            <td>{{flight.airline_name}}</td>
+            <td>{{flight.airplane_id}}</td>
+            <td>{{flight.departure_airport}}</td>
+            <td>{{flight.arrival_airport}}</td>
+            <td>{{flight.departure_time}}</td>
+            <td>{{flight.arrival_time}}</td>
+            <td>{{flight.price}}</td>
+            <td>{{flight.customer_email}}</td>
+            <td>{{flight.ticket_id}}</td>
+          </tr>
+          {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+{% if no_flight %}
+  <h2 style="text-align: center">No Upcoming Flights of {{airline_name}} based on your search</h2>
+{% endif %}

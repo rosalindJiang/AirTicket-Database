@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>My spending</title>
+    <style media="screen">
+    html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/background.jpg');
+        }
+    .toprow{
+      height:200px;
+      background-image: url('static/title line_customer.jpg');
+      background-repeat:no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 150px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .login input {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+    }
+    .links {
+      position: absolute;
+      top: 30%;
+      left: 0;
+      width: 200px;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+      padding: 10px 20px;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .links a:last-child {
+        border-bottom: none;
+    }
+    .links a:hover {
+    background-color: #f2f2f2;
+    color: purple;
+    font-size: 18px;
+    }
+    h2 u,
+    h3 u {
+      font-family: 'Georgia';
+      font-size: 30px;
+      font-style: italic;
+      text-decoration: none;
+    }
+    label {
+      font-size: 20px;
+    }
+    select {
+      width: 1000px;
+      height: 700px;
+    }
+    
+  </style>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}"></a>
+      <h1 class="topwords">Heyyy! Welcome to tracking my spending for customers section</h1>
+    </div>
+
+    <div class="links">
+      <center>
+        <a href="{{ url_for('customer.customer_home') }}">Home</a>
+        <a href="{{ url_for('customer.customer_view') }}">My Flights</a>
+        <a href="{{ url_for('customer.customer_search_purchase') }}">Search and Purchase</a>
+        <a href="{{ url_for('customer.customer_spending') }}">My Spending</a>
+        <a href="/logout">Log Out</a>
+      </center>
+    </div>
+
+
+  <div style="text-align: center">
+      <script>
+        function showDiv(divId, element) {
+            document.getElementById(divId).style.display = element.value == 'dates' ? 'block' : 'none';
+        }
+      </script>
+
+      <form action="/customer_show_spending" method="POST">
+      <label for="time"><h2><u>Please select a time range in which you want to view spending</u></h2> <br></label>
+      <select name = "time"  id="select_way" onchange="showDiv('select_date', this)" style="width: auto; height: 60px">
+          <option value="0">---Please select---</option>
+          <option value="dates">Specify a range of Dates</option>
+          <option value="year">Last Year</option>
+          <option value="month">Last Month</option>
+      </select> 
+
+      <div id="select_date">
+          <h2><u>Please specify a range of days to view spending</u></h2> <br>
+          <label for="start_date">Starting Data</label> <br>
+          <input type="date" name="start_date" value="" > <br><br>
+          <label for="end_date">Ending Data</label> <br>
+          <input type="date" name="end_date" value="" > <br><br>
+      </div> 
+
+      <button type="Search" name="button" class="button button1">Search</button>
+      </form>
+
+
+      {% if tot_month %}
+          <h2>Spending in last month: {{tot_month}} $</h2>
+      {% endif %}
+
+      {% if tot_year %}
+          <h2>Spending in the last year: {{tot_year}} $ </h2>
+            <div id="container" style="text-align: center; width: 800px; height: 500px;" align="center">
+            <script>
+                <!-- chart code will be here -->
+                const object = {{t_each_month|tojson}};
+                const array = [];
+                const array2 = [];
+
+                for (const i in object){
+                    const ele = [`${object[i]['Month']}`, `${object[i]['Spending']}`];
+                    array.push(ele);
+                    array2.push('Spending:');
+                }
+
+
+
+                anychart.onDocumentReady(function() {
+                    var data = {
+                      header: array2,
+                      rows: array}
+
+                var chart = anychart.column();
+
+                chart.data(data);
+
+                chart.title("Spending in Each Month");
+
+                chart.container('container');
+                chart.draw();
+                });
+
+        </script>
+        </div>
+      {% endif %}
+
+      {% if tot_date %}
+          <h2>Spending between {{start_date}} and {{end_date}}: {{tot_date}} $</h2>
+          <div id="container" style="text-align: center; width: 800px; height: 500px;" align="center">
+            <script>
+                <!-- chart code will be here -->
+                const object = {{t_date_each_month|tojson}}
+                const array = [];
+                const array2 = [];
+
+                for (const i in object){
+                    const ele = [`${object[i]['Month']}`, `${object[i]['Spending']}`];
+                    array.push(ele);
+                    array2.push('Spending:');
+                }
+
+
+
+                anychart.onDocumentReady(function() {
+                    var data = {
+                      header: array2,
+                      rows: array}
+
+                var chart = anychart.column();
+
+                chart.data(data);
+
+                chart.title("Spending in Each Month");
+
+                chart.container('container');
+                chart.draw();
+                });
+            </script>
+          </div>
+      {% endif %}
+
+      {% if error1 %}
+            <h4 style="color: firebrick; text-align: center">{{error1}}</h4>
+      {% endif %}
+
+      {% if error2 %}
+            <h4 style="color: firebrick; text-align: center">{{error2}}</h4>
+      {% endif %}
+
+      {% if error3 %}
+            <h4 style="color: firebrick; text-align: center">{{error3}}</h4>
+      {% endif %}
+
+    </div>
+

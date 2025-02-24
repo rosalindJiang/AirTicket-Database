@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>View My Flights</title>
+    <style media="screen">
+      .centered-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    }
+
+    .centered-table {
+    margin: auto;
+    }
+    html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center top;
+          background-image: url('static/background.jpg');
+        }
+    .toprow{
+      height:200px;
+      background-image: url('static/title line_staff.jpg');
+      background-repeat:no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .topimage {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+    .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+    }
+    .welcomesign {
+      height: 150px;
+      width: 150px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    div{
+      margin-top: 5px;
+    }
+    .barwords {
+      font-family: cursive;
+      font-size: 40px;
+    }
+    .button {
+      border: none;
+      color: #afad4c;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin: 4px 2px;
+      transition-duration: 0.45s;
+      cursor: pointer;
+    }
+    .button1{
+      background-color: rgb(255, 255, 255);
+      color: black;
+      border: 3px solid #4CAF50;
+    }
+    .login input {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0; 
+    }
+    .links {
+      position: absolute;
+      top: 30%;
+      left: 0;
+      width: 200px;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .links a {
+      text-decoration: none;
+      color: black;
+      padding: 10px 20px;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .links a:last-child {
+        border-bottom: none;
+    }
+    .links a:hover {
+    background-color: #f2f2f2;
+    color: purple;
+    font-size: 18px;
+    }
+    h2 u,
+    h3 u {
+      font-family: 'Georgia';
+      font-size: 30px;
+      font-style: italic;
+      text-decoration: none;
+    }
+    label {
+      font-size: 20px;
+    }    select {
+      width: 1000px;
+      height: 700px;
+    }
+      .alert {
+    color: red;
+    font-size: 1.2em;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid red;
+    text-align: center;
+  }
+</style>
+  </head>
+  <body>
+    <div class="toprow">
+      <a href="{{ url_for('general.home_page') }}"></a>
+      <h1 class="topwords">Heyyy! Welcome to create new slides and change status</h1>
+    </div>
+
+    <div class="links">
+      <center>
+        <a href="{{ url_for('airline_staff.airline_staff_home') }}">Home</a>
+        <a href="{{ url_for('airline_staff.airline_staff_view') }}">My Flights</a>
+        <a href="{{ url_for('airline_staff.airline_staff_create_flight_change_status') }}">Add New Flights and Change Status</a>
+        <a href="{{ url_for('airline_staff.airline_staff_add_airplane_airport') }}">Add Airplane and Airport</a>
+        <a href="{{ url_for('airline_staff.airline_staff_view_booking_agent') }}">Booking Agents</a>
+        <a href="{{ url_for('airline_staff.airline_staff_view_customer') }}">Frequent Consumers</a>
+        <a href="{{ url_for('airline_staff.airline_staff_report') }}">Tickets Reports</a>
+        <a href="{{ url_for('airline_staff.airline_staff_revenue') }}">Revenue</a>
+        <a href="{{ url_for('airline_staff.airline_staff_destination') }}">Top Destination</a>
+        <a href="{{ url_for('airline_staff.airline_staff_permission') }}">New Permissions</a>
+        <a href="{{ url_for('airline_staff.airline_staff_add_booking_agent') }}">Add Booking Agent</a>
+        <a href="/logout">Log Out</a>
+      </center>
+    </div>
+
+    <div style="text-align: center">
+      {% if error %}
+      <h2 style="color: firebrick">{{error}}</h2>
+      {% endif %}
+    </div>
+  <div class="flash-messages centered-div">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+    {% if admin %}
+      <div style="text-align: center">
+        <form action="/airline_staff_create_flight" method="POST">
+          <h2><u>Create New Flights</u></h2>
+          <label for="f_n">Flight Number</label> <br>
+          <input type="text" name="f_n" value="" required> <br><br>
+          <label for="airp_id">Airplane</label> <br>
+          <select name="airp_id" style="width: auto; height: 60px">
+              {% if airplane_id %}
+                {% for airplane in airplane_id %}
+                    <option value="{{airplane}}" >{{airplane}}</option>
+                {% endfor %}
+              {% else %}
+                <option value="None" >--Sorry: No airplane available now--</option>
+              {% endif %}
+          </select> <br><br>
+          <label for="depar_date">Departure Date</label> <br>
+          <input type="date" name="depar_date" value="" required onfocus="(this.type='date')" onblur="(this.type='text')"> <br><br>
+          <label for="departure_time">Departure Time</label> <br>
+          <input type="time" name = "departure_time" placeholder="departure_time" required/> </br><br>
+          <label for="arr_date">Arrival Date</label> <br>
+          <input type="date" name="arr_date" value="" required onfocus="(this.type='date')" onblur="(this.type='text')"> <br><br>
+          <label for="arrival_time">Arrival Time</label> <br>
+          <input type="time" name = "arrival_time" placeholder="arrival_time" required/> </br><br>
+          <label for="depar_airport">Departure Airport</label> <br>
+          <select name="depar_airport" style="width: auto; height: 60px">
+              {% if airport %}
+                {% for airp in airport %}
+                    <option value="{{airp}}" >{{airp}}</option>
+                {% endfor %}
+              {% else %}
+                <option value="None" >--Sorry: No airport available now--</option>
+              {% endif %}
+          </select> <br><br>
+          <label for="arrival_airport">Arrival Airport</label> <br>
+          <select name="arrival_airport" style="width: auto; height: 60px">
+              {% if airport %}
+                {% for airp in airport %}
+                    <option value="{{airp}}" >{{airp}}</option>
+                {% endfor %}
+              {% else %}
+                <option value="None" >--Sorry: No airport available now--</option>
+              {% endif %}
+          </select> <br><br>
+          <label for="status">Status</label> <br>
+          <input type="text" name="status" value="" required> <br><br>
+          <label for="price">Price</label> <br>
+          <input type="text" name="price" value="" required> <br><br>
+
+          <button type="Search" name="button" class="button button1">Submit</button>
+        </form>
+
+        {% if error0 %}
+              <h4 style="color: firebrick">{{error0}}</h4>
+        {% endif %}
+        {% if error1 %}
+              <h4 style="color: firebrick">{{error1}}</h4>
+        {% endif %}
+        {% if error2 %}
+              <h4 style="color: firebrick">{{error2}}</h4>
+        {% endif %}
+        {% if error3 %}
+              <h4 style="color: firebrick">{{error3}}</h4>
+        {% endif %}
+        {% if error4 %}
+              <h4 style="color: firebrick">{{error4}}</h4>
+        {% endif %}
+        {% if error5 %}
+              <h4 style="color: firebrick">{{error5}}</h4>
+        {% endif %}
+
+        {% if message %}
+            <h4 style="color: #168107">{{message}}</h4>
+        {% endif %}
+
+        {% if flights %}
+        <h2><u>Flights in the next 30 dyas</u></h2>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if operator %}
+      <div style="text-align: center">
+        <form action="/airline_staff_change_status" method="POST">
+        <h2><u>Change Status of Flights</u></h2>
+        <label for="flight_number">Choose a flight number</label> <br>
+          <select name="flight_number" style="width: auto; height: 60px">
+              {% if flight_num %}
+                {% for flight in flight_num %}
+                    <option value="{{flight}}" >{{flight}}</option>
+                {% endfor %}
+              {% else %}
+                <option value="None" >--Sorry: No flight available now--</option>
+              {% endif %}
+          </select> <br><br>
+
+        <label for="newstatus">New Status</label> <br>
+          <select name="newstatus" style="width: auto; height: 60px">
+            <option value="Upcoming" >Upcoming</option>
+            <option value="In Progress" >In Progress</option>
+            <option value="Delayed" >Delayed</option>
+          </select> <br><br>
+          <button type="Search" name="button" class="button button1">Submit</button>
+        </form>
+
+        {% if error6 %}
+              <h4 style="color: firebrick">{{error6}}</h4>
+        {% endif %}
+        {% if message2 %}
+            <h4 style="color: #168107">{{message2}}</h4>
+        {% endif %}
+      </div>
+    {% endif %}
+

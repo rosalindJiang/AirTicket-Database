@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <style media="screen">
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center top;
+        background-image: url('static/login background.jpg');
+      }
+      .toprow {
+        height: 150px;
+      }
+      .topimage {
+        height: 200px;
+        width: auto;
+        float: left;
+        border-radius: 50px;
+      }
+      .topwords {
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: purple;
+      }
+      .bottomrow {
+        height: 150px;
+      }
+      .bottomimage {
+      height: 150px;
+      width: auto;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 50px;
+      }
+      .welcome-message {
+        text-align: center;
+        color: #fff;
+        font-size: 24px;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        padding: 80px; /* Adjust the padding for styling */
+        border-radius: 2px;
+        background-image: url('static/welcome.png'); /* Replace with your image path */
+        background-size: cover;
+      }
+      .icon-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+      .icon-row {
+        text-align: center;
+      }
+      .icon {
+        width: 150px;
+        height: auto;
+        margin: 10px;
+      }
+      .icon-label {
+      color: purple;
+      font-size: 20px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="toprow">
+      <h1 class="topwords">Log In As:</h1>
+    </div>
+    <div class="welcome-message">
+      <h2>Welcome to the Login Page!</h2>
+      <p>Please choose your role:</p>
+    </div>
+    <div class="icon-container">
+      <div class="icon-row">
+        <a href="{{ url_for('customer.customer_login') }}">
+          <img src="static/customer.png" alt="Customer" class="icon">
+          <p class="icon-label">Customer? Click here</p>
+        </a>
+      </div>
+      <div class="icon-row">
+        <a href="{{ url_for('booking_agent.booking_agent_login') }}">
+          <img src="static/agent.png" alt="Booking Agent" class="icon">
+          <p class="icon-label">Booking Agent? Click here</p>
+        </a>
+      </div>
+      <div class="icon-row">
+        <a href="{{ url_for('airline_staff.airline_staff_login') }}">
+          <img src="static/staff.png" alt="Airline Staff" class="icon">
+          <p class="icon-label">Airline Staff? Click here</p>
+        </a>
+      </div>
+    </div>
+    <div class="bottomrow">
+      <a href="{{ url_for('general.home_page') }}">
+        <img src="static/home.png" alt="Home" class="bottomimage">
+      </a>
+    </div>
+  </body>
+</html>
