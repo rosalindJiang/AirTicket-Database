@@ -7,7 +7,7 @@ Highlight the advantages:
 By grouping the templates based on the entities or entities the files in this project primarily relate to:
 General:
 - Main.py
-  Used for running
+  - Used for running
 - General.py
   General functions that do not specify user identity
 - Airline_staff.py
